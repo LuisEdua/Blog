@@ -1,0 +1,31 @@
+---
+// src/components/SocialLinks.astro
+const { links } = Astro.props;
+---
+
+<div class="social-links">
+{links.map((link) => (
+<a href={link.href} target="_blank" rel="noopener noreferrer">
+    <span class="sr-only">{link.label}</span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
+    <path d={link.svgPath}></path>
+    </svg>
+</a>
+))}
+</div>
+
+<style>
+.social-links {
+display: flex;
+justify-content: center;
+gap: 1em;
+margin-top: 1em;
+}
+.social-links a {
+text-decoration: none;
+color: rgb(var(--gray));
+}
+.social-links a:hover {
+color: rgb(var(--gray-dark));
+}
+</style>
