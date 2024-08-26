@@ -11,52 +11,258 @@ import { socialLinks } from '../../astro.config.mjs';
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/learn/java">Learn</HeaderLink>
-			<HeaderLink href="/news">News</HeaderLink>
-			<!--<HeaderLink href="/videogames/">Video Juegos</HeaderLink>-->
-			<HeaderLink href="/about">About</HeaderLink>
+			<div class="dropdown">
+				<button class="dropbtn">Programación</button>
+				<div class="dropdown-content">
+					<div class="sub-dropdown">
+						<p class="sub-dropbtn">Aprender</p>
+						<div class="sub-dropdown-content">
+							<HeaderLink href="/programming/learn/java">Java</HeaderLink>
+							<HeaderLink href="/programming/learn/python">Python</HeaderLink>
+							<HeaderLink href="/programming/learn/csharp">C#</HeaderLink>
+						</div>
+					</div>
+					<HeaderLink href="/programming/news">Noticias</HeaderLink>
+				</div>
+			</div>
+			<HeaderLink href="/about">Sobre mi</HeaderLink>
+			<button class="subscribe-btn">Suscribirse</button>
 		</div>
 		<SocialLinks links={socialLinks} />
-	</nav>
+	</nav>	
+
+	<!-- Modal -->
+	<div id="subscribeModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Suscríbete</h2>
+			<form id="subscribeForm">
+				<input type="email" class="input-email" placeholder="Introduce tu correo" required />
+				<button type="submit" class="add-email-btn">Suscribirse</button>
+			</form>
+		</div>
+	</div>
 </header>
+
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
+    margin: 0;
+    padding: 0 1em;
+    background: white;
+    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+}
+h2 {
+    margin: 0;
+    font-size: 1em;
+}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
-		display: flex;
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
+h2 a,
+h2 a.active {
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+nav a {
+    padding: 1em 0.5em;
+    color: var(--black);
+    border-bottom: 4px solid transparent;
+    text-decoration: none;
+    font-size: 16px;
+}
+nav a.active {
+    text-decoration: none;
+    border-bottom-color: var(--accent);
+}
+.subscribe-btn {
+    padding: 1em 0.5em;
+    background-color: var(--accent); /* Asegúrate de que el color de fondo sea visible */
+    color: white; /* El color del texto debe ser contrastante con el fondo */
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px; /* Asegura bordes redondeados si es necesario */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Añade una sombra si es necesario para visibilidad */
+}
+
+.subscribe-btn:hover {
+    background-color: var(--accent); /* Cambia el color de fondo en hover */
+}
+
+.social-links,
+.social-links a {
+    display: flex;
+}
+@media (max-width: 720px) {
+    .social-links {
+        display: none;
+    }
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    padding: 1em 0.5em;
+    background-color: inherit;
+    color: var(--black);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.sub-dropdown {
+    position: relative;
+}
+
+.sub-dropbtn {
+    padding: 1em 0.5em;
+    color: var(--black);
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sub-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+    left: 100%; /* Position it next to the dropdown */
+    top: 0;
+}
+
+.dropdown-content a,
+.sub-dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover,
+.sub-dropdown-content a:hover {
+    background-color: inherit; /* Mantiene el color de fondo original */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.sub-dropdown:hover .sub-dropdown-content {
+    display: block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 300px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="email"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: var(--accent);
+}
+
 </style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const modal = document.getElementById('subscribeModal');
+		const openBtn = document.querySelector('.subscribe-btn');
+		const closeBtn = document.querySelector('.close');
+		const subscribeBtn = document.querySelector('.add-email-btn');
+		const inputEmail = document.querySelector('.input-email') as HTMLInputElement;
+
+		if (openBtn && modal) {
+			openBtn.addEventListener('click', function() {
+				modal.style.display = 'block';
+			});
+		}
+
+		if (closeBtn && modal) {
+			closeBtn.addEventListener('click', function() {
+				modal.style.display = 'none';
+			});
+		}
+
+		if (subscribeBtn && modal) {
+			subscribeBtn.addEventListener('click', function(event) {
+				event.preventDefault(); 
+				let emailValue;
+				if (inputEmail){
+					emailValue = inputEmail.value;
+				}
+				console.log(emailValue); 
+				console.log('Subscribing...');
+			});
+		}
+	});
+
+</script>
