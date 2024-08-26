@@ -1,0 +1,125 @@
+---
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../../components/FormattedDate.astro';
+
+const posts = (await getCollection('CSharp')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	<style>
+		main {
+			width: 960px;
+		}
+		.tech-nav {
+			display: flex;
+			justify-content: center;
+			padding: 1rem 0; /* Aumenta el padding para darle más espacio al nav */
+			background-color: #f9f9f9;
+		}
+		nav a {
+			text-decoration: none;
+			color: rgb(var(--black));
+			font-size: 1rem;
+			padding: 0.5rem 1rem; /* Aumenta el padding para darle más espacio a cada enlace */
+			transition: color 0.2s ease;
+			line-height: 1.2;
+			margin: 0 1rem; /* Aumenta el margen entre los elementos del nav */
+		}
+		nav a.active {
+			color: rgb(var(--accent));
+			font-weight: bold;
+		}
+		nav a:hover {
+			color: rgb(var(--accent));
+		}
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 2rem; /* Ajusta el gap entre los elementos de la lista */
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		ul li {
+			width: calc(50% - 1rem); /* Ajusta el ancho para el diseño deseado */
+			margin-bottom: 2rem; /* Aumenta el margen inferior para dar más espacio entre filas */
+		}
+		ul li img {
+			margin-bottom: 0.5rem;
+			border-radius: 12px;
+		}
+		ul li a {
+			display: block;
+		}
+		.title {
+			margin: 0;
+			color: rgb(var(--black));
+			line-height: 1;
+		}
+		.date {
+			margin: 0;
+			color: rgb(var(--gray));
+		}
+		ul li a:hover h4,
+		ul li a:hover .date {
+			color: rgb(var(--accent));
+		}
+		ul a:hover img {
+			box-shadow: var(--box-shadow);
+		}
+		@media (max-width: 720px) {
+			ul {
+				gap: 1em; /* Ajusta el gap para dispositivos móviles */
+			}
+			ul li {
+				width: 100%;
+				text-align: center;
+			}
+			ul li:first-child {
+				margin-bottom: 0;
+			}
+			ul li:first-child .title {
+				font-size: 1.563em;
+			}
+		}
+	</style>
+</head>
+<body>
+	<Header />
+	<main>
+		<nav class="tech-nav">
+			<a href="/learn/java">Java</a>
+			<a href="/learn/python">Python</a>
+			<a href="/learn/csharp" class='active'>C#</a>
+		</nav>
+		<section>
+			<ul>
+				{
+					posts.map((post) => (
+						<li>
+							<a href={`/CSharp/${post.slug}/`}>
+								<img width={720} height={360} src={post.data.heroImage} alt="" />
+								<h4 class="title">{post.data.title}</h4>
+								<p class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</main>
+	<Footer />
+</body>
+</html>
+
